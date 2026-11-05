@@ -1,0 +1,26 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+secrets.*
+credentials.*
+
+# Local tool/build outputs
+.vscode/
+.idea/
+*.o
+*.a
+*.so
+build/
+node_modules/
+
+# Large or private data; keep only an explicit sanitized manifest/sample in Git
+data/raw/**
+data/processed/**
+*.csv
+*.parquet
+*.zip
+
+# Python cache
+__pycache__/
+*.py[cod]
