@@ -1,6 +1,7 @@
 #include "sensor_service.h"
 #include "app_config.h"
 #include <Arduino.h>
+#include <Wire.h>
 #include <cmath>
 
 bool SensorService::begin() {
