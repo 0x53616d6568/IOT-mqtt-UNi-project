@@ -41,6 +41,13 @@ void DisplayService::render(const SensorSnapshot &snapshot,
 void DisplayService::renderAcceleration(const SensorSnapshot &s) {
   char line[32];
   printLine(0, "ACCELERATION (m/s2)");
+  if (!s.valid) {
+    printLine(1, "Sensor unavailable");
+    printLine(2, "Check MPU6050 I2C");
+    printLine(3, s.hr202ThresholdActive ? "HR202: THRESHOLD ON"
+                                        : "HR202: threshold off");
+    return;
+  }
   snprintf(line, sizeof(line), "X:%7.2f Y:%7.2f", s.accelX, s.accelY);
   printLine(1, line);
   snprintf(line, sizeof(line), "Z:%7.2f  %s", s.accelZ,
@@ -53,6 +60,12 @@ void DisplayService::renderAcceleration(const SensorSnapshot &s) {
 void DisplayService::renderGyroscope(const SensorSnapshot &s) {
   char line[32];
   printLine(0, "GYRO (rad/s)");
+  if (!s.valid) {
+    printLine(1, "Sensor unavailable");
+    printLine(2, "Check MPU6050 I2C");
+    printLine(3, "MPU6050 / GY-521");
+    return;
+  }
   snprintf(line, sizeof(line), "X:%7.2f Y:%7.2f", s.gyroX, s.gyroY);
   printLine(1, line);
   snprintf(line, sizeof(line), "Z:%7.2f  %s", s.gyroZ,
