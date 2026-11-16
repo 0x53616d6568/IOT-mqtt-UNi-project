@@ -41,6 +41,7 @@ ESP32: acquisition → validation → windows/features → baseline / optional X
 .
 ├── README.md                         # Main project page: system explanation + TODO checklist
 ├── TODO.md                           # Standalone milestone checklist
+├── wokwi-sim/                         # ESP32 + MPU6050/HR202 + LCD + MQTT simulator
 └── docs/
     ├── 01-project-plan.md
     ├── 02-architecture.md
