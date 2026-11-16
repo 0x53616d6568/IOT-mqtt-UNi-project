@@ -1,0 +1,27 @@
+name: "MPU6050 + HR202 acquisition smoke test"
+version: 1
+author: "0x53616d6568"
+steps:
+  - set-control:
+      part-id: mpu
+      name: accelX
+      value: 0.25
+  - set-control:
+      part-id: mpu
+      name: accelY
+      value: -0.15
+  - set-control:
+      part-id: mpu
+      name: rotationZ
+      value: 35
+  - delay: 1500ms
+  - set-control:
+      part-id: hr202
+      name: pressed
+      value: 1
+  - delay: 1500ms
+  - set-control:
+      part-id: hr202
+      name: pressed
+      value: 0
+  - delay: 1500ms

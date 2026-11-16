@@ -41,6 +41,7 @@ ESP32: acquisition → validation → windows/features → baseline / optional X
 .
 ├── README.md                         # Main project page: system explanation + TODO checklist
 ├── TODO.md                           # Standalone milestone checklist
+├── wokwi-sim/                         # ESP32 + MPU6050/HR202 + LCD + MQTT simulator
 └── docs/
     ├── 01-project-plan.md
     ├── 02-architecture.md
@@ -116,6 +117,10 @@ Use `[ ]` for not started and `[x]` when complete; add a short evidence note or 
 | M4 Events | Confirm/acknowledge/clear behavior verified locally. |
 | M5 IoT integration | MQTT, commands, state confirmation, availability, and dashboard work end-to-end. |
 | M6 Delivery | Test evidence, report, source/flows, and demo are reproducible. |
+
+## Wokwi acquisition simulation
+
+A separate [Wokwi ESP32 simulation](wokwi-sim/README.md) exercises MPU6050 acceleration/gyroscope acquisition, a digital HR202 threshold-input emulator, the I²C LCD, status LEDs, and MQTT telemetry using the existing topic prefix. It includes modular PlatformIO firmware, a circuit diagram, a repeatable smoke-test scenario, and CI validation. The pushbutton is only a digital-output stand-in for the HR202; it does not simulate humidity measurement or the physical module's comparator.
 
 ## Detailed documentation
 
