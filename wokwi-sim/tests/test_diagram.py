@@ -28,12 +28,23 @@ class WokwiDiagramTests(unittest.TestCase):
                 self.assertIn(part_id, self.parts)
                 self.assertEqual(self.parts[part_id]["type"], part_type)
 
-    def test_every_connection_references_a_known_part(self):
+    def test_every_connection_references_a_known_part_and_pin(self):
+        pin_map = {
+            "esp": {"21", "22", "25", "26", "27", "3V3", "GND.1"},
+            "mpu": {"SDA", "SCL", "VCC", "GND"},
+            "lcd": {"SDA", "SCL", "VCC", "GND"},
+            "hr202": {"1.l", "2.l"},
+            "green-led": {"A", "C"},
+            "red-led": {"A", "C"},
+            "green-r": {"1", "2"},
+            "red-r": {"1", "2"},
+        }
         for connection in self.connections:
-            self.assertGreaterEqual(len(connection), 2)
+            self.assertEqual(len(connection), 4)
             for endpoint in connection[:2]:
-                part_id = endpoint.split(":", 1)[0]
-                self.assertIn(part_id, self.parts, f"Unknown endpoint {endpoint}")
+                part_id, pin = endpoint.split(":", 1)
+                self.assertIn(part_id, self.parts, f"Unknown part in {endpoint}")
+                self.assertIn(pin, pin_map[part_id], f"Unknown pin in {endpoint}")
 
     def test_expected_gpio_and_shared_i2c_wiring(self):
         pairs = {(wire[0], wire[1]) for wire in self.connections}
@@ -46,6 +57,12 @@ class WokwiDiagramTests(unittest.TestCase):
         for pair in expected:
             with self.subTest(pair=pair):
                 self.assertIn(pair, pairs)
+
+    def test_lcd_and_button_simulation_attributes(self):
+        self.assertEqual(self.parts["lcd"]["attrs"]["pins"], "i2c")
+        self.assertEqual(self.parts["hr202"]["attrs"]["bounce"], "0")
+        self.assertEqual(self.parts["green-r"]["attrs"]["value"], "330")
+        self.assertEqual(self.parts["red-r"]["attrs"]["value"], "330")
 
     def test_firmware_configuration_matches_diagram(self):
         config = (ROOT / "include/app_config.h").read_text(encoding="utf-8")
@@ -72,7 +89,7 @@ class WokwiDiagramTests(unittest.TestCase):
             "src/display_service.cpp", "src/mqtt_service.cpp",
             "include/sensor_service.h", "include/display_service.h",
             "include/mqtt_service.h", "platformio.ini", "wokwi.toml",
-            "scenarios/acquisition-smoke-test.yaml",
+            "scenarios/acquisition-smoke-test.yaml", ".gitignore",
         )
         for path in paths:
             with self.subTest(path=path):
