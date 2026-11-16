@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "author": "0x53616d6568",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-mpu6050", "id": "mpu", "top": -130, "left": 270, "attrs": {} },
+    { "type": "wokwi-lcd2004", "id": "lcd", "top": 160, "left": 270, "attrs": { "pins": "i2c" } },
+    { "type": "wokwi-pushbutton", "id": "hr202", "top": 20, "left": 450, "attrs": { "color": "blue", "label": "HR202 threshold", "key": "H" } },
+    { "type": "wokwi-led", "id": "green-led", "top": 30, "left": 600, "attrs": { "color": "green", "label": "VALID" } },
+    { "type": "wokwi-resistor", "id": "green-r", "top": 70, "left": 550, "attrs": { "value": "330" } },
+    { "type": "wokwi-led", "id": "red-led", "top": 130, "left": 600, "attrs": { "color": "red", "label": "THRESHOLD / ERROR" } },
+    { "type": "wokwi-resistor", "id": "red-r", "top": 170, "left": 550, "attrs": { "value": "330" } }
+  ],
+  "connections": [
+    [ "esp:21", "mpu:SDA", "green", [] ],
+    [ "esp:22", "mpu:SCL", "green", [] ],
+    [ "esp:3V3", "mpu:VCC", "red", [] ],
+    [ "esp:GND.1", "mpu:GND", "black", [] ],
+    [ "esp:21", "lcd:SDA", "green", [] ],
+    [ "esp:22", "lcd:SCL", "green", [] ],
+    [ "esp:3V3", "lcd:VCC", "red", [] ],
+    [ "esp:GND.1", "lcd:GND", "black", [] ],
+    [ "esp:27", "hr202:2.l", "blue", [] ],
+    [ "esp:GND.1", "hr202:1.l", "black", [] ],
+    [ "esp:25", "green-r:1", "green", [] ],
+    [ "green-r:2", "green-led:A", "green", [] ],
+    [ "green-led:C", "esp:GND.1", "black", [] ],
+    [ "esp:26", "red-r:1", "red", [] ],
+    [ "red-r:2", "red-led:A", "red", [] ],
+    [ "red-led:C", "esp:GND.1", "black", [] ]
+  ],
+  "dependencies": {}
+}
