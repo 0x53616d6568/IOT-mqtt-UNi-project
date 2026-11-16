@@ -59,12 +59,20 @@ class WokwiDiagramTests(unittest.TestCase):
             with self.subTest(value=value):
                 self.assertIn(value, config)
 
+    def test_acquisition_scenario_targets_existing_parts(self):
+        scenario = (ROOT / "scenarios/acquisition-smoke-test.yaml").read_text(encoding="utf-8")
+        self.assertIn("part-id: mpu", scenario)
+        self.assertIn("part-id: hr202", scenario)
+        self.assertIn("name: accelX", scenario)
+        self.assertIn("name: pressed", scenario)
+
     def test_modular_firmware_files_exist(self):
         paths = (
             "src/main.cpp", "src/sensor_service.cpp",
             "src/display_service.cpp", "src/mqtt_service.cpp",
             "include/sensor_service.h", "include/display_service.h",
             "include/mqtt_service.h", "platformio.ini", "wokwi.toml",
+            "scenarios/acquisition-smoke-test.yaml",
         )
         for path in paths:
             with self.subTest(path=path):
